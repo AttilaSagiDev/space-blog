@@ -11,7 +11,7 @@
             <tab>general</tab>
             <resource>Space_Blog::config_space_blogs</resource>
             <group id="basic" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Bolg Options</label>
+                <label>Blog Options</label>
                 <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1"
                        showInStore="1" canRestore="1">
                     <label>Enable Blogs</label>
