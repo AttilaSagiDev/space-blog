@@ -14,6 +14,7 @@ use Magento\Framework\Model\Context;
 use Magento\Framework\Registry;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
 use Magento\Framework\Data\Collection\AbstractDb;
+use Space\Blog\Model\ResourceModel\Blog as BlogResourceModel;
 
 class Blog extends AbstractModel implements BlogInterface, IdentityInterface
 {
@@ -35,7 +36,7 @@ class Blog extends AbstractModel implements BlogInterface, IdentityInterface
     protected $_eventPrefix = 'space_blog';
 
     /**
-     * Construct
+     * Constructor
      *
      * @param Context $context
      * @param Registry $registry
@@ -53,10 +54,15 @@ class Blog extends AbstractModel implements BlogInterface, IdentityInterface
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
-    /*protected function _construct()
+    /**
+     * Resource and model initialization
+     *
+     * @return void
+     */
+    protected function _construct(): void
     {
-        $this->_init(\Space\Blog\Model\ResourceModel\Blog::class);
-    }*/
+        $this->_init(BlogResourceModel::class);
+    }
 
     /**
      * Get identities
