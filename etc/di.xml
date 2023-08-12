@@ -4,6 +4,23 @@
  * Copyright © 2023, Open Software License ("OSL") v. 3.0
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Space\Blog\Api\Data\ConfigInterface" type="Space\Blog\Model\Config" />
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Space\Blog\Api\Data\ConfigInterface" type="Space\Blog\Model\Config"/>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="space_blog_listing_data_source" xsi:type="string">Space\Blog\Model\ResourceModel\Blog\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Space\Blog\Model\ResourceModel\Blog\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">space_blog</argument>
+            <argument name="eventPrefix" xsi:type="string">space_blog_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">blog_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Space\Blog\Model\ResourceModel\Blog</argument>
+        </arguments>
+    </type>
 </config>

@@ -20,7 +20,7 @@ class Index extends Action
     /**
      * Authorization level of a basic admin session
      */
-    const ADMIN_RESOURCE = 'Space_Blog::blog';
+    public const ADMIN_RESOURCE = 'Space_Blog::blog';
 
     /**
      * @var Registry
@@ -56,8 +56,6 @@ class Index extends Action
      */
     public function execute(): ResultInterface
     {
-        die('Space_blog');
-
         /** @var Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
         $resultPage->setActiveMenu('Space_Blog::blog')
@@ -65,7 +63,7 @@ class Index extends Action
             ->addBreadcrumb(__('Blog'), __('Blog'));
 
         $dataPersistor = $this->_objectManager->get(DataPersistorInterface::class);
-        $dataPersistor->clear('cms_block');
+        $dataPersistor->clear('space_blog');
 
         return $resultPage;
     }

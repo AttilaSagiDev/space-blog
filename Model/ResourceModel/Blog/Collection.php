@@ -7,11 +7,12 @@ declare(strict_types=1);
 
 namespace Space\Blog\Model\ResourceModel\Blog;
 
-use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
+use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Framework\Data\Collection\EntityFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
+use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Space\Blog\Model\Blog;
@@ -35,12 +36,18 @@ class Collection extends AbstractCollection
     protected $_eventObject = 'blog_collection';
 
     /**
+     * @var MetadataPool
+     */
+    protected MetadataPool $metadataPool;
+
+    /**
      * Constructor
      *
      * @param EntityFactoryInterface $entityFactory
      * @param LoggerInterface $logger
      * @param FetchStrategyInterface $fetchStrategy
      * @param ManagerInterface $eventManager
+     * @param MetadataPool $metadataPool
      * @param AdapterInterface|null $connection
      * @param AbstractDb|null $resource
      */
@@ -49,9 +56,11 @@ class Collection extends AbstractCollection
         LoggerInterface $logger,
         FetchStrategyInterface $fetchStrategy,
         ManagerInterface $eventManager,
+        MetadataPool $metadataPool,
         AdapterInterface $connection = null,
         AbstractDb $resource = null
     ) {
+        $this->metadataPool = $metadataPool;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
     }
 
