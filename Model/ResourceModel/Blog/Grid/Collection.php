@@ -36,11 +36,11 @@ class Collection extends BlogCollection implements SearchResultInterface
      * @param FetchStrategyInterface $fetchStrategy
      * @param ManagerInterface $eventManager
      * @param MetadataPool $metadataPool
-     * @param $mainTable
-     * @param $eventPrefix
-     * @param $eventObject
-     * @param $resourceModel
-     * @param $model
+     * @param string $mainTable
+     * @param string $eventPrefix
+     * @param string $eventObject
+     * @param string $resourceModel
+     * @param string $model
      * @param AdapterInterface|null $connection
      * @param AbstractDb|null $resource
      */
@@ -50,11 +50,11 @@ class Collection extends BlogCollection implements SearchResultInterface
         FetchStrategyInterface $fetchStrategy,
         ManagerInterface $eventManager,
         MetadataPool $metadataPool,
-        $mainTable,
-        $eventPrefix,
-        $eventObject,
-        $resourceModel,
-        $model = Document::class,
+        string $mainTable,
+        string $eventPrefix,
+        string $eventObject,
+        string $resourceModel,
+        string $model = Document::class,
         AdapterInterface $connection = null,
         AbstractDb $resource = null
     ) {

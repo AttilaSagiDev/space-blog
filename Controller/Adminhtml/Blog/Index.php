@@ -9,7 +9,6 @@ namespace Space\Blog\Controller\Adminhtml\Blog;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
-use Magento\Framework\Registry;
 use Magento\Framework\View\Result\PageFactory;
 use Magento\Backend\Model\View\Result\Page;
 use Magento\Framework\App\Request\DataPersistorInterface;
@@ -23,11 +22,6 @@ class Index extends Action
     public const ADMIN_RESOURCE = 'Space_Blog::blog';
 
     /**
-     * @var Registry
-     */
-    private Registry $coreRegistry;
-
-    /**
      * @var PageFactory
      */
     private PageFactory $resultPageFactory;
@@ -36,15 +30,12 @@ class Index extends Action
      * Constructor
      *
      * @param Context $context
-     * @param Registry $coreRegistry
      * @param PageFactory $resultPageFactory
      */
     public function __construct(
         Context $context,
-        Registry $coreRegistry,
         PageFactory $resultPageFactory
     ) {
-        $this->coreRegistry = $coreRegistry;
         $this->resultPageFactory = $resultPageFactory;
         parent::__construct($context);
     }

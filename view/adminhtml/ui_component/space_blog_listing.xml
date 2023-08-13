@@ -81,45 +81,10 @@
                     <label translate="true">Delete</label>
                 </settings>
             </action>
-            <!--<action name="edit">
-                <settings>
-                    <callback>
-                        <target>editSelected</target>
-                        <provider>cms_block_listing.cms_block_listing.cms_block_columns_editor</provider>
-                    </callback>
-                    <type>edit</type>
-                    <label translate="true">Edit</label>
-                </settings>
-            </action>-->
         </massaction>
         <paging name="listing_paging"/>
     </listingToolbar>
     <columns name="space_blog_columns">
-        <settings>
-            <!--<editorConfig>
-                <param name="clientConfig" xsi:type="array">
-                    <item name="saveUrl" xsi:type="url" path="cms/block/inlineEdit"/>
-                    <item name="validateBeforeSave" xsi:type="boolean">false</item>
-                </param>
-                <param name="indexField" xsi:type="string">block_id</param>
-                <param name="enabled" xsi:type="boolean">true</param>
-                <param name="selectProvider" xsi:type="string">
-                    cms_block_listing.cms_block_listing.cms_block_columns.ids
-                </param>
-            </editorConfig>
-            <childDefaults>
-                <param name="fieldAction" xsi:type="array">
-                    <item name="provider" xsi:type="string">
-                        cms_block_listing.cms_block_listing.cms_block_columns_editor
-                    </item>
-                    <item name="target" xsi:type="string">startEdit</item>
-                    <item name="params" xsi:type="array">
-                        <item name="0" xsi:type="string">${ $.$data.rowIndex }</item>
-                        <item name="1" xsi:type="boolean">true</item>
-                    </item>
-                </param>
-            </childDefaults>-->
-        </settings>
         <selectionsColumn name="ids">
             <settings>
                 <indexField>blog_id</indexField>
@@ -135,25 +100,12 @@
         <column name="title">
             <settings>
                 <filter>text</filter>
-                <!--<editor>
-                    <validation>
-                        <rule name="required-entry" xsi:type="boolean">true</rule>
-                    </validation>
-                    <editorType>text</editorType>
-                </editor>-->
                 <label translate="true">Title</label>
             </settings>
         </column>
         <column name="author">
             <settings>
                 <filter>text</filter>
-                <!--<editor>
-                    <validation>
-                        <rule name="required-entry" xsi:type="boolean">true</rule>
-                        <rule name="no-marginal-whitespace" xsi:type="boolean">true</rule>
-                    </validation>
-                    <editorType>text</editorType>
-                </editor>-->
                 <label translate="true">Author</label>
             </settings>
         </column>
@@ -191,10 +143,10 @@
                 <label translate="true">Modified</label>
             </settings>
         </column>
-        <!--<actionsColumn name="actions" class="Magento\Cms\Ui\Component\Listing\Column\BlockActions">
+        <actionsColumn name="actions" class="Space\Blog\Ui\Component\Listing\Column\BlogActions">
             <settings>
-                <indexField>block_id</indexField>
+                <indexField>blog_id</indexField>
             </settings>
-        </actionsColumn>-->
+        </actionsColumn>
     </columns>
 </listing>
