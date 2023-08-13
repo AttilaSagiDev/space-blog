@@ -8,13 +8,14 @@ declare(strict_types=1);
 namespace Space\Blog\Controller\Adminhtml\Blog;
 
 use Magento\Backend\App\Action;
+use Magento\Framework\App\Action\HttpGetActionInterface as HttpGetActionInterface;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
 use Magento\Backend\Model\View\Result\Page;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\Controller\ResultInterface;
 
-class Index extends Action
+class Index extends Action implements HttpGetActionInterface
 {
     /**
      * Authorization level of a basic admin session
@@ -52,6 +53,7 @@ class Index extends Action
         $resultPage->setActiveMenu('Space_Blog::blog')
             ->addBreadcrumb(__('Space'), __('Space'))
             ->addBreadcrumb(__('Blog'), __('Blog'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Blogs'));
 
         $dataPersistor = $this->_objectManager->get(DataPersistorInterface::class);
         $dataPersistor->clear('space_blog');
