@@ -77,11 +77,11 @@ class Blog extends AbstractModel implements BlogInterface, IdentityInterface
     /**
      * Get ID
      *
-     * @return int
+     * @return int|null
      */
-    public function getId(): int
+    public function getId(): ?int
     {
-        return $this->getData(self::BLOG_ID);
+        return (int)$this->getData(self::BLOG_ID);
     }
 
     /**
