@@ -14,9 +14,6 @@ use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Ui\DataProvider\Modifier\PoolInterface;
 use Space\Blog\Model\Blog;
 
-/**
- * Class DataProvider
- */
 class DataProvider extends ModifierPoolDataProvider
 {
     /**

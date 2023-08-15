@@ -44,11 +44,11 @@ class GenericButton
      * @return int|null
      * @throws LocalizedException
      */
-    public function getBlockId(): ?int
+    public function getBlogId(): ?int
     {
         try {
             return $this->blogRepository->getById(
-                $this->context->getRequest()->getParam('blog_id')
+                (int)$this->context->getRequest()->getParam('blog_id')
             )->getId();
         } catch (NoSuchEntityException $e) {
         }
@@ -61,7 +61,7 @@ class GenericButton
      *
      * @param string $route
      * @param array $params
-     * @return  string
+     * @return string
      */
     public function getUrl(string $route = '', array $params = []): string
     {

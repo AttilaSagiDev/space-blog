@@ -12,6 +12,7 @@ use Magento\Framework\EntityManager\EntityManager;
 use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Framework\Model\ResourceModel\Db\Context;
 use Space\Blog\Api\Data\BlogInterface;
+use Magento\Framework\Model\AbstractModel;
 
 class Blog extends AbstractDb
 {
@@ -31,13 +32,13 @@ class Blog extends AbstractDb
      * @param Context $context
      * @param EntityManager $entityManager
      * @param MetadataPool $metadataPool
-     * @param null $connectionName
+     * @param string $connectionName
      */
     public function __construct(
         Context $context,
         EntityManager $entityManager,
         MetadataPool $metadataPool,
-        $connectionName = null
+        string $connectionName = null
     ) {
         $this->entityManager = $entityManager;
         $this->metadataPool = $metadataPool;
@@ -52,5 +53,27 @@ class Blog extends AbstractDb
     protected function _construct(): void
     {
         $this->_init('space_blog', BlogInterface::BLOG_ID);
+    }
+
+    /**
+     * Save an object.
+     *
+     * @param AbstractModel $object
+     * @return $this
+     * @throws \Exception
+     */
+    public function save(AbstractModel $object): static
+    {
+        $this->entityManager->save($object);
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function delete(AbstractModel $object): AbstractDb|Blog|static
+    {
+        $this->entityManager->delete($object);
+        return $this;
     }
 }

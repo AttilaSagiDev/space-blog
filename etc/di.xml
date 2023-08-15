@@ -19,12 +19,32 @@
             </argument>
         </arguments>
     </type>
+
     <type name="Space\Blog\Model\ResourceModel\Blog\Grid\Collection">
         <arguments>
             <argument name="mainTable" xsi:type="string">space_blog</argument>
             <argument name="eventPrefix" xsi:type="string">space_blog_grid_collection</argument>
             <argument name="eventObject" xsi:type="string">blog_grid_collection</argument>
             <argument name="resourceModel" xsi:type="string">Space\Blog\Model\ResourceModel\Blog</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\Model\Entity\RepositoryFactory">
+        <arguments>
+            <argument name="entities" xsi:type="array">
+                <item name="Space\Blog\Api\Data\BlogInterface" xsi:type="string">Space\Blog\Api\BlogRepositoryInterface</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\EntityManager\MetadataPool">
+        <arguments>
+            <argument name="metadata" xsi:type="array">
+                <item name="Space\Blog\Api\Data\BlogInterface" xsi:type="array">
+                    <item name="entityTableName" xsi:type="string">space_blog</item>
+                    <item name="identifierField" xsi:type="string">blog_id</item>
+                </item>
+            </argument>
         </arguments>
     </type>
 </config>

@@ -7,8 +7,8 @@ declare(strict_types=1);
 
 namespace Space\Blog\Model;
 
-use Space\Blog\Api\Data\BlogSearchResultsInterface;
 use Magento\Framework\Api\SearchResults;
+use Space\Blog\Api\Data\BlogSearchResultsInterface;
 
 class BlogSearchResultsFactory extends SearchResults implements BlogSearchResultsInterface
 {

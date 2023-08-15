@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Space\Blog\Model;
 
-use Magento\Framework\Api\SearchCriteriaInterface;
 use Space\Blog\Api\BlogRepositoryInterface;
 use Space\Blog\Api\Data\BlogInterface;
 use Space\Blog\Api\Data\BlogSearchResultsInterface;
@@ -19,9 +18,11 @@ use Space\Blog\Api\Data\BlogInterfaceFactory;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\EntityManager\HydratorInterface;
 use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\LocalizedException;
 
 class BlogRepository implements BlogRepositoryInterface
 {
@@ -103,6 +104,14 @@ class BlogRepository implements BlogRepositoryInterface
         $this->hydrator = $hydrator ?? ObjectManager::getInstance()->get(HydratorInterface::class);
     }
 
+    /**
+     * Save
+     *
+     * @param BlogInterface $blog
+     * @return BlogInterface
+     * @throws CouldNotSaveException
+     * @throws NoSuchEntityException
+     */
     public function save(BlogInterface $blog): BlogInterface
     {
         if ($blog->getId() && $blog instanceof Blog && !$blog->getOrigData()) {
@@ -138,7 +147,6 @@ class BlogRepository implements BlogRepositoryInterface
 
     public function getList(SearchCriteriaInterface $criteria): BlogSearchResultsInterface
     {
-        /** @var \Space\Blog\Model\ResourceModel\Blog\Collection $collection */
         $collection = $this->blogCollectionFactory->create();
 
         $this->collectionProcessor->process($criteria, $collection);
@@ -162,6 +170,14 @@ class BlogRepository implements BlogRepositoryInterface
         return true;
     }
 
+    /**
+     * Delete by ID
+     *
+     * @param int $blogId
+     * @return bool
+     * @throws NoSuchEntityException
+     * @throws LocalizedException
+     */
     public function deleteById(int $blogId): bool
     {
         return $this->delete($this->getById($blogId));

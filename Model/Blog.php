@@ -117,9 +117,9 @@ class Blog extends AbstractModel implements BlogInterface, IdentityInterface
     /**
      * Get creation time
      *
-     * @return string
+     * @return string|null
      */
-    public function getCreationTime(): string
+    public function getCreationTime(): ?string
     {
         return $this->getData(self::CREATION_TIME);
     }
@@ -127,9 +127,9 @@ class Blog extends AbstractModel implements BlogInterface, IdentityInterface
     /**
      * Get update time
      *
-     * @return string
+     * @return string|null
      */
-    public function getUpdateTime(): string
+    public function getUpdateTime(): ?string
     {
         return $this->getData(self::UPDATE_TIME);
     }
