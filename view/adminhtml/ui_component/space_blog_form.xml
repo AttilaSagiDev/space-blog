@@ -15,9 +15,11 @@
     </argument>
     <settings>
         <buttons>
-            <button name="save" class="Magento\Cms\Block\Adminhtml\Block\Edit\SaveButton"/>
-            <button name="delete" class="Magento\Cms\Block\Adminhtml\Block\Edit\DeleteButton"/>
-            <button name="back" class="Magento\Cms\Block\Adminhtml\Block\Edit\BackButton"/>
+            <button name="save" class="Space\Blog\Block\Adminhtml\Blog\Edit\SaveButton"/>
+            <!--
+            <button name="delete" class="Space\Blog\Block\Adminhtml\Blog\Edit\DeleteButton"/>
+            <button name="back" class="Space\Cms\Blog\Adminhtml\Blog\Edit\BackButton"/>
+            -->
         </buttons>
         <namespace>space_blog_form</namespace>
         <dataScope>data</dataScope>
@@ -96,6 +98,21 @@
                 <dataScope>title</dataScope>
             </settings>
         </field>
+        <field name="author" sortOrder="30" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">blog</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Author</label>
+                <dataScope>title</dataScope>
+            </settings>
+        </field>
         <!--
         <field name="storeviews" formElement="multiselect" class="Magento\Store\Ui\Component\Form\Field\StoreView">
             <argument name="data" xsi:type="array">
@@ -125,23 +142,28 @@
             </formElements>
         </field>
         -->
-        <field name="content" formElement="textarea">
+        <field name="content" sortOrder="40" formElement="textarea">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="source" xsi:type="string">blog</item>
+                    <item name="cols" xsi:type="number">10</item>
+                    <item name="rows" xsi:type="number">10</item>
                 </item>
             </argument>
             <settings>
-                <label/>
+                <label translate="true">Content</label>
                 <dataScope>content</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="validate-no-html-tags" xsi:type="boolean">true</rule>
+                    <rule name="max_text_length" xsi:type="number">1000</rule>
+                </validation>
+                <tooltip>
+                    <description translate="true">This is content for the post. Maximum characters 1000 and html
+                        tags not allowed
+                    </description>
+                </tooltip>
             </settings>
-            <formElements>
-                <wysiwyg>
-                    <settings>
-                        <wysiwyg>false</wysiwyg>
-                    </settings>
-                </wysiwyg>
-            </formElements>
         </field>
     </fieldset>
 </form>
