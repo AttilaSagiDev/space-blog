@@ -22,7 +22,7 @@ interface BlogSearchResultsInterface extends SearchResultsInterface
      * Set blog items
      *
      * @param BlogInterface[] $items
-     * @return BlogSearchResultsInterface
+     * @return $this
      */
     public function setItems(array $items);
 }

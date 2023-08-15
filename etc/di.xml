@@ -6,10 +6,11 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Space\Blog\Api\Data\ConfigInterface" type="Space\Blog\Model\Config"/>
+    <preference for="Space\Blog\Api\Data\BlogSearchResultsInterface"
+                type="Space\Blog\Model\BlogSearchResultsFactory" />
     <preference for="Space\Blog\Api\Data\BlogInterface" type="Space\Blog\Model\Blog" />
-    <preference for="Space\Blog\Api\Data\BlogSearchResultsInterface" type="Space\Blog\Model\BlogSearchResults" />
     <preference for="Space\Blog\Api\BlogRepositoryInterface" type="Space\Blog\Model\BlogRepository" />
+    <preference for="Space\Blog\Api\Data\ConfigInterface" type="Space\Blog\Model\Config"/>
 
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>

@@ -18,7 +18,7 @@
             <button name="save" class="Space\Blog\Block\Adminhtml\Blog\Edit\SaveButton"/>
             <!--
             <button name="delete" class="Space\Blog\Block\Adminhtml\Blog\Edit\DeleteButton"/>
-            <button name="back" class="Space\Cms\Blog\Adminhtml\Blog\Edit\BackButton"/>
+            <button name="back" class="Space\Blog\Blog\Adminhtml\Blog\Edit\BackButton"/>
             -->
         </buttons>
         <namespace>space_blog_form</namespace>

@@ -20,6 +20,8 @@ use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\EntityManager\HydratorInterface;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\CouldNotDeleteException;
+use Magento\Framework\Exception\CouldNotSaveException;
 
 class BlogRepository implements BlogRepositoryInterface
 {
@@ -39,9 +41,9 @@ class BlogRepository implements BlogRepositoryInterface
     protected BlogCollectionFactory $blogCollectionFactory;
 
     /**
-     * @var BlogSearchResultsInterfaceFactory
+     * @var BlogSearchResultsFactory
      */
-    protected BlogSearchResultsInterfaceFactory $searchResultsFactory;
+    protected BlogSearchResultsFactory $searchResultsFactory;
 
     /**
      * @var DataObjectHelper
@@ -69,12 +71,11 @@ class BlogRepository implements BlogRepositoryInterface
     private HydratorInterface $hydrator;
 
     /**
-     * Constructor
-     *
      * @param ResourceBlog $resource
      * @param BlogFactory $blogFactory
      * @param BlogInterfaceFactory $dataBlogFactory
      * @param BlogCollectionFactory $blogCollectionFactory
+     * @param BlogSearchResultsFactory $searchResultsFactory
      * @param DataObjectHelper $dataObjectHelper
      * @param DataObjectProcessor $dataObjectProcessor
      * @param CollectionProcessorInterface|null $collectionProcessor
@@ -85,7 +86,7 @@ class BlogRepository implements BlogRepositoryInterface
         BlogFactory $blogFactory,
         BlogInterfaceFactory $dataBlogFactory,
         BlogCollectionFactory $blogCollectionFactory,
-        BlogSearchResultsInterfaceFactory $searchResultsFactory,
+        BlogSearchResultsFactory $searchResultsFactory,
         DataObjectHelper $dataObjectHelper,
         DataObjectProcessor $dataObjectProcessor,
         CollectionProcessorInterface $collectionProcessor = null,
@@ -104,7 +105,17 @@ class BlogRepository implements BlogRepositoryInterface
 
     public function save(BlogInterface $blog): BlogInterface
     {
-        // TODO: Implement save() method.
+        if ($blog->getId() && $blog instanceof Blog && !$blog->getOrigData()) {
+            $blog = $this->hydrator->hydrate($this->getById($blog->getId()), $this->hydrator->extract($blog));
+        }
+
+        try {
+            $this->resource->save($blog);
+        } catch (\Exception $exception) {
+            throw new CouldNotSaveException(__($exception->getMessage()));
+        }
+
+        return $blog;
     }
 
     /**
@@ -125,18 +136,34 @@ class BlogRepository implements BlogRepositoryInterface
         return $blog;
     }
 
-    public function getList(SearchCriteriaInterface $searchCriteria): BlogSearchResultsInterface
+    public function getList(SearchCriteriaInterface $criteria): BlogSearchResultsInterface
     {
-        // TODO: Implement getList() method.
+        /** @var \Space\Blog\Model\ResourceModel\Blog\Collection $collection */
+        $collection = $this->blogCollectionFactory->create();
+
+        $this->collectionProcessor->process($criteria, $collection);
+
+        /** @var BlogSearchResultsInterface $searchResults */
+        $searchResults = $this->searchResultsFactory->create();
+        $searchResults->setSearchCriteria($criteria);
+        $searchResults->setItems($collection->getItems());
+        $searchResults->setTotalCount($collection->getSize());
+        return $searchResults;
     }
 
     public function delete(BlogInterface $blog): bool
     {
-        // TODO: Implement delete() method.
+        try {
+            $this->resource->delete($blog);
+        } catch (\Exception $exception) {
+            throw new CouldNotDeleteException(__($exception->getMessage()));
+        }
+
+        return true;
     }
 
     public function deleteById(int $blogId): bool
     {
-        // TODO: Implement deleteById() method.
+        return $this->delete($this->getById($blogId));
     }
 }
