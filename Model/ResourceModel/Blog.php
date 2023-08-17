@@ -32,7 +32,7 @@ class Blog extends AbstractDb
      * @param Context $context
      * @param EntityManager $entityManager
      * @param MetadataPool $metadataPool
-     * @param string $connectionName
+     * @param string|null $connectionName
      */
     public function __construct(
         Context $context,
@@ -69,7 +69,11 @@ class Blog extends AbstractDb
     }
 
     /**
-     * @inheritDoc
+     * Delete the object
+     *
+     * @param AbstractModel $object
+     * @return AbstractDb|Blog|$this
+     * @throws \Exception
      */
     public function delete(AbstractModel $object): AbstractDb|Blog|static
     {

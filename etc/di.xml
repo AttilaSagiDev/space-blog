@@ -47,4 +47,25 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Space\Blog\Model\BlogRepository">
+        <arguments>
+            <!-- later for store managment
+            <argument name="collectionProcessor"
+                      xsi:type="object">Space\Blog\Model\Api\SearchCriteria\BlogCollectionProcessor
+            </argument>
+            -->
+            <argument name="hydrator" xsi:type="object">Magento\Framework\EntityManager\AbstractModelHydrator</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\EntityManager\HydratorPool">
+        <arguments>
+            <argument name="hydrators" xsi:type="array">
+                <item name="Space\Blog\Api\Data\BlogInterface"
+                      xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator
+                </item>
+            </argument>
+        </arguments>
+    </type>
 </config>

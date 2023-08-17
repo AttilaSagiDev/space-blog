@@ -23,7 +23,7 @@ class DeleteButton extends GenericButton implements ButtonProviderInterface
         $data = [];
         if ($this->getBlogId()) {
             $data = [
-                'label' => __('Delete Block'),
+                'label' => __('Delete Post'),
                 'class' => 'delete',
                 'on_click' => 'deleteConfirm(\'' . __('Are you sure you want to do this?')
                     . '\', \'' . $this->getDeleteUrl() . '\', {"data": {}})',

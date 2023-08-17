@@ -100,7 +100,8 @@ class BlogRepository implements BlogRepositoryInterface
         $this->dataObjectHelper = $dataObjectHelper;
         $this->dataBlogFactory = $dataBlogFactory;
         $this->dataObjectProcessor = $dataObjectProcessor;
-        $this->collectionProcessor = $collectionProcessor ?: ObjectManager::getInstance()->get(CollectionProcessorInterface::class);
+        $this->collectionProcessor = $collectionProcessor ?:
+            ObjectManager::getInstance()->get(CollectionProcessorInterface::class);
         $this->hydrator = $hydrator ?? ObjectManager::getInstance()->get(HydratorInterface::class);
     }
 
@@ -159,6 +160,13 @@ class BlogRepository implements BlogRepositoryInterface
         return $searchResults;
     }
 
+    /**
+     * Delete blog
+     *
+     * @param BlogInterface $blog
+     * @return bool
+     * @throws CouldNotDeleteException
+     */
     public function delete(BlogInterface $blog): bool
     {
         try {
