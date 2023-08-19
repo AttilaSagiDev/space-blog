@@ -3,24 +3,26 @@
  * Copyright © 2023, Open Software License ("OSL") v. 3.0
  */
 
+declare(strict_types=1);
+
 namespace Space\Blog\Api\Data;
 
 use Magento\Framework\Api\SearchResultsInterface;
 
-interface BlogSearchResultInterface extends SearchResultsInterface
+interface BlogSearchResultsInterface extends SearchResultsInterface
 {
     /**
      * Get blog items
      *
      * @return BlogInterface[]
      */
-    public function getItems(): array;
+    public function getItems();
 
     /**
      * Set blog items
      *
      * @param BlogInterface[] $items
-     * @return BlogSearchResultInterface
+     * @return $this
      */
-    public function setItems(array $items): BlogSearchResultInterface;
+    public function setItems(array $items);
 }

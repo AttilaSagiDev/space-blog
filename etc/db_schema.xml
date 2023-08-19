@@ -36,7 +36,8 @@
             <column name="blog_id"/>
             <column name="store_id"/>
         </constraint>
-        <constraint xsi:type="foreign" referenceId="SPACE_BLOG_STORE_BLOG_ID_SPACE_BLOG_BLOG_ID" table="space_blog_store"
+        <constraint xsi:type="foreign" referenceId="SPACE_BLOG_STORE_BLOG_ID_SPACE_BLOG_BLOG_ID"
+                    table="space_blog_store"
                     column="blog_id" referenceTable="space_blog" referenceColumn="blog_id" onDelete="CASCADE"/>
         <constraint xsi:type="foreign" referenceId="SPACE_BLOG_STORE_STORE_ID_STORE_STORE_ID" table="space_blog_store"
                     column="store_id" referenceTable="store" referenceColumn="store_id" onDelete="CASCADE"/>
