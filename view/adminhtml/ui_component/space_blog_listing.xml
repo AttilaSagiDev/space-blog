@@ -81,6 +81,20 @@
                     <label translate="true">Delete</label>
                 </settings>
             </action>
+            <action name="enable">
+                <settings>
+                    <url path="space/blog/massEnable"/>
+                    <type>enable</type>
+                    <label translate="true">Enable</label>
+                </settings>
+            </action>
+            <action name="disable">
+                <settings>
+                    <url path="space/blog/massDisable"/>
+                    <type>disable</type>
+                    <label translate="true">Disable</label>
+                </settings>
+            </action>
         </massaction>
         <paging name="listing_paging"/>
     </listingToolbar>
