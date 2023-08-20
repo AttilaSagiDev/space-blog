@@ -73,6 +73,7 @@ class Save extends Action implements HttpPostActionInterface
         /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
         $data = $this->getRequest()->getPostValue();
+
         if ($data) {
             if (isset($data['is_active']) && $data['is_active'] === 'true') {
                 $data['is_active'] = IsActive::STATUS_ENABLED;
