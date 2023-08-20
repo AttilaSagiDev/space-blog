@@ -7,6 +7,9 @@ declare(strict_types=1);
 
 namespace Space\Blog\Model\ResourceModel\Blog\Grid;
 
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Store\Model\StoreManagerInterface;
 use Space\Blog\Model\ResourceModel\Blog\Collection as BlogCollection;
 use Magento\Framework\Api\Search\SearchResultInterface;
 use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
@@ -17,12 +20,18 @@ use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Psr\Log\LoggerInterface;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Framework\Api\Search\AggregationInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Api\ExtensibleDataInterface;
 
 class Collection extends BlogCollection implements SearchResultInterface
 {
+    /**
+     * @var TimezoneInterface
+     */
+    private TimezoneInterface $timeZone;
+
     /**
      * @var AggregationInterface
      */
@@ -43,12 +52,14 @@ class Collection extends BlogCollection implements SearchResultInterface
      * @param string $model
      * @param AdapterInterface|null $connection
      * @param AbstractDb|null $resource
+     * @param TimezoneInterface|null $timeZone
      */
     public function __construct(
         EntityFactoryInterface $entityFactory,
         LoggerInterface $logger,
         FetchStrategyInterface $fetchStrategy,
         ManagerInterface $eventManager,
+        StoreManagerInterface $storeManager,
         MetadataPool $metadataPool,
         string $mainTable,
         string $eventPrefix,
@@ -56,13 +67,15 @@ class Collection extends BlogCollection implements SearchResultInterface
         string $resourceModel,
         string $model = Document::class,
         AdapterInterface $connection = null,
-        AbstractDb $resource = null
+        AbstractDb $resource = null,
+        TimezoneInterface $timeZone = null
     ) {
         parent::__construct(
             $entityFactory,
             $logger,
             $fetchStrategy,
             $eventManager,
+            $storeManager,
             $metadataPool,
             $connection,
             $resource
@@ -71,6 +84,24 @@ class Collection extends BlogCollection implements SearchResultInterface
         $this->_eventObject = $eventObject;
         $this->_init($model, $resourceModel);
         $this->setMainTable($mainTable);
+        $this->timeZone = $timeZone ?: ObjectManager::getInstance()->get(TimezoneInterface::class);
+    }
+
+    /**
+     * @inheritDoc
+     * @throws LocalizedException
+     */
+    public function addFieldToFilter($field, $condition = null): \Magento\Framework\Data\Collection\AbstractDb|Collection
+    {
+        if ($field === 'creation_time' || $field === 'update_time') {
+            if (is_array($condition)) {
+                foreach ($condition as $key => $value) {
+                    $condition[$key] = $this->timeZone->convertConfigTimeToUtc($value);
+                }
+            }
+        }
+
+        return parent::addFieldToFilter($field, $condition);
     }
 
     /**

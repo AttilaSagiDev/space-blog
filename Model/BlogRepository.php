@@ -15,6 +15,7 @@ use Space\Blog\Model\ResourceModel\Blog\CollectionFactory as BlogCollectionFacto
 use Magento\Framework\Api\DataObjectHelper;
 use Magento\Framework\Reflection\DataObjectProcessor;
 use Space\Blog\Api\Data\BlogInterfaceFactory;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\EntityManager\HydratorInterface;
 use Magento\Framework\App\ObjectManager;
@@ -62,6 +63,11 @@ class BlogRepository implements BlogRepositoryInterface
     protected BlogInterfaceFactory $dataBlogFactory;
 
     /**
+     * @var StoreManagerInterface
+     */
+    private StoreManagerInterface $storeManager;
+
+    /**
      * @var CollectionProcessorInterface
      */
     private CollectionProcessorInterface $collectionProcessor;
@@ -79,6 +85,7 @@ class BlogRepository implements BlogRepositoryInterface
      * @param BlogSearchResultsFactory $searchResultsFactory
      * @param DataObjectHelper $dataObjectHelper
      * @param DataObjectProcessor $dataObjectProcessor
+     * @param StoreManagerInterface $storeManager
      * @param CollectionProcessorInterface|null $collectionProcessor
      * @param HydratorInterface|null $hydrator
      */
@@ -90,6 +97,7 @@ class BlogRepository implements BlogRepositoryInterface
         BlogSearchResultsFactory $searchResultsFactory,
         DataObjectHelper $dataObjectHelper,
         DataObjectProcessor $dataObjectProcessor,
+        StoreManagerInterface $storeManager,
         CollectionProcessorInterface $collectionProcessor = null,
         ?HydratorInterface $hydrator = null
     ) {
@@ -100,6 +108,7 @@ class BlogRepository implements BlogRepositoryInterface
         $this->dataObjectHelper = $dataObjectHelper;
         $this->dataBlogFactory = $dataBlogFactory;
         $this->dataObjectProcessor = $dataObjectProcessor;
+        $this->storeManager = $storeManager;
         $this->collectionProcessor = $collectionProcessor ?:
             ObjectManager::getInstance()->get(CollectionProcessorInterface::class);
         $this->hydrator = $hydrator ?? ObjectManager::getInstance()->get(HydratorInterface::class);
@@ -115,6 +124,10 @@ class BlogRepository implements BlogRepositoryInterface
      */
     public function save(BlogInterface $blog): BlogInterface
     {
+        if (empty($blog->getStoreId())) {
+            $blog->setStoreId($this->storeManager->getStore()->getId());
+        }
+
         if ($blog->getId() && $blog instanceof Blog && !$blog->getOrigData()) {
             $blog = $this->hydrator->hydrate($this->getById($blog->getId()), $this->hydrator->extract($blog));
         }
