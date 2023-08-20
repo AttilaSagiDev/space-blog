@@ -111,7 +111,7 @@ class BlogRepository implements BlogRepositoryInterface
      * @param BlogInterface $blog
      * @return BlogInterface
      * @throws CouldNotSaveException
-     * @throws NoSuchEntityException
+     * @throws NoSuchEntityException|LocalizedException
      */
     public function save(BlogInterface $blog): BlogInterface
     {
@@ -133,7 +133,7 @@ class BlogRepository implements BlogRepositoryInterface
      *
      * @param int $blogId
      * @return BlogInterface
-     * @throws NoSuchEntityException
+     * @throws NoSuchEntityException|LocalizedException
      */
     public function getById(int $blogId): BlogInterface
     {

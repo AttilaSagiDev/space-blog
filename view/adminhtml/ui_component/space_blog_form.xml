@@ -96,26 +96,10 @@
                 <dataScope>title</dataScope>
             </settings>
         </field>
-        <field name="author" sortOrder="30" formElement="input">
+        <field name="storeviews" sortOrder="30" formElement="multiselect" class="Magento\Store\Ui\Component\Form\Field\StoreView">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="source" xsi:type="string">blog</item>
-                </item>
-            </argument>
-            <settings>
-                <validation>
-                    <rule name="required-entry" xsi:type="boolean">true</rule>
-                </validation>
-                <dataType>text</dataType>
-                <label translate="true">Author</label>
-                <dataScope>author</dataScope>
-            </settings>
-        </field>
-        <!--
-        <field name="storeviews" formElement="multiselect" class="Magento\Store\Ui\Component\Form\Field\StoreView">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">block</item>
                     <item name="default" xsi:type="number">0</item>
                 </item>
             </argument>
@@ -134,13 +118,27 @@
             <formElements>
                 <multiselect>
                     <settings>
-                        <options class="Magento\Cms\Ui\Component\Listing\Column\Cms\Options"/>
+                        <options class="Space\Blog\Ui\Component\Listing\Column\Store\Options"/>
                     </settings>
                 </multiselect>
             </formElements>
         </field>
-        -->
-        <field name="content" sortOrder="40" formElement="textarea">
+        <field name="author" sortOrder="40" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">blog</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Author</label>
+                <dataScope>author</dataScope>
+            </settings>
+        </field>
+        <field name="content" sortOrder="50" formElement="textarea">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="source" xsi:type="string">blog</item>
