@@ -16,6 +16,10 @@ use Magento\Framework\Model\ResourceModel\AbstractResource;
 use Magento\Framework\Data\Collection\AbstractDb;
 use Space\Blog\Model\ResourceModel\Blog as BlogResourceModel;
 
+/**
+ * @method Blog setStoreId(int $storeId)
+ * @method int getStoreId()
+ */
 class Blog extends AbstractModel implements BlogInterface, IdentityInterface
 {
     /**
@@ -219,5 +223,15 @@ class Blog extends AbstractModel implements BlogInterface, IdentityInterface
     public function setIsActive(bool|int $isActive): BlogInterface
     {
         return $this->setData(self::IS_ACTIVE, $isActive);
+    }
+
+    /**
+     * Receive blog store ids
+     *
+     * @return int[]
+     */
+    public function getStores(): array
+    {
+        return $this->hasData('stores') ? $this->getData('stores') : $this->getData('store_id');
     }
 }

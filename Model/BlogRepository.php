@@ -15,6 +15,7 @@ use Space\Blog\Model\ResourceModel\Blog\CollectionFactory as BlogCollectionFacto
 use Magento\Framework\Api\DataObjectHelper;
 use Magento\Framework\Reflection\DataObjectProcessor;
 use Space\Blog\Api\Data\BlogInterfaceFactory;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\EntityManager\HydratorInterface;
 use Magento\Framework\App\ObjectManager;
@@ -42,9 +43,9 @@ class BlogRepository implements BlogRepositoryInterface
     protected BlogCollectionFactory $blogCollectionFactory;
 
     /**
-     * @var BlogSearchResultsFactory
+     * @var BlogSearchResults
      */
-    protected BlogSearchResultsFactory $searchResultsFactory;
+    protected BlogSearchResults $searchResultsFactory;
 
     /**
      * @var DataObjectHelper
@@ -62,6 +63,11 @@ class BlogRepository implements BlogRepositoryInterface
     protected BlogInterfaceFactory $dataBlogFactory;
 
     /**
+     * @var StoreManagerInterface
+     */
+    private StoreManagerInterface $storeManager;
+
+    /**
      * @var CollectionProcessorInterface
      */
     private CollectionProcessorInterface $collectionProcessor;
@@ -76,9 +82,10 @@ class BlogRepository implements BlogRepositoryInterface
      * @param BlogFactory $blogFactory
      * @param BlogInterfaceFactory $dataBlogFactory
      * @param BlogCollectionFactory $blogCollectionFactory
-     * @param BlogSearchResultsFactory $searchResultsFactory
+     * @param BlogSearchResults $searchResultsFactory
      * @param DataObjectHelper $dataObjectHelper
      * @param DataObjectProcessor $dataObjectProcessor
+     * @param StoreManagerInterface $storeManager
      * @param CollectionProcessorInterface|null $collectionProcessor
      * @param HydratorInterface|null $hydrator
      */
@@ -87,9 +94,10 @@ class BlogRepository implements BlogRepositoryInterface
         BlogFactory $blogFactory,
         BlogInterfaceFactory $dataBlogFactory,
         BlogCollectionFactory $blogCollectionFactory,
-        BlogSearchResultsFactory $searchResultsFactory,
+        BlogSearchResults $searchResultsFactory,
         DataObjectHelper $dataObjectHelper,
         DataObjectProcessor $dataObjectProcessor,
+        StoreManagerInterface $storeManager,
         CollectionProcessorInterface $collectionProcessor = null,
         ?HydratorInterface $hydrator = null
     ) {
@@ -100,6 +108,7 @@ class BlogRepository implements BlogRepositoryInterface
         $this->dataObjectHelper = $dataObjectHelper;
         $this->dataBlogFactory = $dataBlogFactory;
         $this->dataObjectProcessor = $dataObjectProcessor;
+        $this->storeManager = $storeManager;
         $this->collectionProcessor = $collectionProcessor ?:
             ObjectManager::getInstance()->get(CollectionProcessorInterface::class);
         $this->hydrator = $hydrator ?? ObjectManager::getInstance()->get(HydratorInterface::class);
@@ -111,10 +120,14 @@ class BlogRepository implements BlogRepositoryInterface
      * @param BlogInterface $blog
      * @return BlogInterface
      * @throws CouldNotSaveException
-     * @throws NoSuchEntityException
+     * @throws NoSuchEntityException|LocalizedException
      */
     public function save(BlogInterface $blog): BlogInterface
     {
+        if (empty($blog->getStoreId())) {
+            $blog->setStoreId($this->storeManager->getStore()->getId());
+        }
+
         if ($blog->getId() && $blog instanceof Blog && !$blog->getOrigData()) {
             $blog = $this->hydrator->hydrate($this->getById($blog->getId()), $this->hydrator->extract($blog));
         }
@@ -133,7 +146,7 @@ class BlogRepository implements BlogRepositoryInterface
      *
      * @param int $blogId
      * @return BlogInterface
-     * @throws NoSuchEntityException
+     * @throws NoSuchEntityException|LocalizedException
      */
     public function getById(int $blogId): BlogInterface
     {
@@ -149,7 +162,6 @@ class BlogRepository implements BlogRepositoryInterface
     public function getList(SearchCriteriaInterface $criteria): BlogSearchResultsInterface
     {
         $collection = $this->blogCollectionFactory->create();
-
         $this->collectionProcessor->process($criteria, $collection);
 
         /** @var BlogSearchResultsInterface $searchResults */

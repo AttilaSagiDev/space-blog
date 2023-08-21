@@ -53,7 +53,7 @@ class Index extends Action implements HttpGetActionInterface
         $resultPage->setActiveMenu('Space_Blog::blog')
             ->addBreadcrumb(__('Space'), __('Space'))
             ->addBreadcrumb(__('Blog'), __('Blog'));
-        $resultPage->getConfig()->getTitle()->prepend(__('Blogs'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Posts'));
 
         $dataPersistor = $this->_objectManager->get(DataPersistorInterface::class);
         $dataPersistor->clear('space_blog');

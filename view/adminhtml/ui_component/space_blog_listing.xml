@@ -57,17 +57,17 @@
                     </filters>
                 </templates>
             </settings>
-            <!--<filterSelect name="store_id" provider="${ $.parentName }">
+            <filterSelect name="store_id" provider="${ $.parentName }">
                 <settings>
                     <captionValue>0</captionValue>
-                    <options class="Magento\Cms\Ui\Component\Listing\Column\Cms\Options"/>
+                    <options class="Space\Blog\Ui\Component\Listing\Column\Store\Options"/>
                     <label translate="true">Store View</label>
                     <dataScope>store_id</dataScope>
                     <imports>
                         <link name="visible">ns = ${ $.ns }, index = ${ $.index }:visible</link>
                     </imports>
                 </settings>
-            </filterSelect>-->
+            </filterSelect>
         </filters>
         <massaction name="listing_massaction">
             <action name="delete">
@@ -123,13 +123,6 @@
                 <label translate="true">Author</label>
             </settings>
         </column>
-        <!--<column name="store_id" class="Magento\Store\Ui\Component\Listing\Column\Store">
-            <settings>
-                <label translate="true">Store View</label>
-                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
-                <sortable>false</sortable>
-            </settings>
-        </column>-->
         <column name="is_active" component="Magento_Ui/js/grid/columns/select">
             <settings>
                 <options class="Space\Blog\Model\Source\IsActive"/>
@@ -139,6 +132,13 @@
                 </editor>
                 <dataType>select</dataType>
                 <label translate="true">Status</label>
+            </settings>
+        </column>
+        <column name="store_id" class="Magento\Store\Ui\Component\Listing\Column\Store">
+            <settings>
+                <label translate="true">Store View</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <sortable>false</sortable>
             </settings>
         </column>
         <column name="creation_time" class="Magento\Ui\Component\Listing\Columns\Date"

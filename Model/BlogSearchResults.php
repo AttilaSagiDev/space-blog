@@ -10,6 +10,6 @@ namespace Space\Blog\Model;
 use Magento\Framework\Api\SearchResults;
 use Space\Blog\Api\Data\BlogSearchResultsInterface;
 
-class BlogSearchResultsFactory extends SearchResults implements BlogSearchResultsInterface
+class BlogSearchResults extends SearchResults implements BlogSearchResultsInterface
 {
 }
