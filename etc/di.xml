@@ -119,4 +119,12 @@
             <argument name="hydrator" xsi:type="object">Magento\Framework\EntityManager\AbstractModelHydrator</argument>
         </arguments>
     </type>
+
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="space_blog_generate_command" xsi:type="object">Space\Blog\Console\Command\Generate</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
