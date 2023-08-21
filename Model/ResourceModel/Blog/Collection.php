@@ -118,8 +118,8 @@ class Collection extends AbstractCollection
         $linkedIds = $this->getColumnValues($linkField);
         if (count($linkedIds)) {
             $connection = $this->getConnection();
-            $select = $connection->select()->from(['space_blog_store' => $this->getTable($tableName)])
-                ->where('space_blog_store.' . $linkField . ' IN (?)', $linkedIds);
+            $select = $connection->select()->from(['space_entity_store' => $this->getTable($tableName)])
+                ->where('space_entity_store.' . $linkField . ' IN (?)', $linkedIds);
             $result = $connection->fetchAll($select);
             if ($result) {
                 $storesData = [];
@@ -150,23 +150,39 @@ class Collection extends AbstractCollection
     }
 
     /**
-     * Returns pairs block_id - title
+     * Returns pairs blog_id - title
      *
      * @return array
      */
-    public function toOptionArray()
+    public function toOptionArray(): array
     {
         return $this->_toOptionArray('blog_id', 'title');
     }
 
     /**
+     * Add field filter to collection
+     *
+     * @param array|string $field
+     * @param string|int|array|null $condition
+     * @return $this
+     */
+    public function addFieldToFilter($field, $condition = null): static
+    {
+        if ($field === 'store_id') {
+            return $this->addStoreFilter($condition, false);
+        }
+
+        return parent::addFieldToFilter($field, $condition);
+    }
+
+    /**
      * Add filter by store
      *
-     * @param array|int|Store $store
+     * @param array|int|string|Store $store
      * @param bool $withAdmin
      * @return $this
      */
-    public function addStoreFilter(Store|array|int $store, bool $withAdmin = true): static
+    public function addStoreFilter(array|int|string|Store $store, bool $withAdmin = true): static
     {
         $this->performAddStoreFilter($store, $withAdmin);
 
@@ -176,7 +192,7 @@ class Collection extends AbstractCollection
     /**
      * Perform adding filter by store
      *
-     * @param array|int|Store $store
+     * @param Store|array|int $store
      * @param bool $withAdmin
      * @return void
      */

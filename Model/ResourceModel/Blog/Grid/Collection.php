@@ -8,19 +8,19 @@ declare(strict_types=1);
 namespace Space\Blog\Model\ResourceModel\Blog\Grid;
 
 use Magento\Framework\App\ObjectManager;
-use Magento\Framework\Exception\LocalizedException;
 use Magento\Store\Model\StoreManagerInterface;
 use Space\Blog\Model\ResourceModel\Blog\Collection as BlogCollection;
 use Magento\Framework\Api\Search\SearchResultInterface;
 use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
 use Magento\Framework\Data\Collection\EntityFactoryInterface;
+use Psr\Log\LoggerInterface;
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\View\Element\UiComponent\DataProvider\Document;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
-use Psr\Log\LoggerInterface;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Api\Search\AggregationInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Api\ExtensibleDataInterface;
@@ -35,7 +35,7 @@ class Collection extends BlogCollection implements SearchResultInterface
     /**
      * @var AggregationInterface
      */
-    private AggregationInterface $aggregations;
+    protected AggregationInterface $aggregations;
 
     /**
      * Constructor
@@ -44,6 +44,7 @@ class Collection extends BlogCollection implements SearchResultInterface
      * @param LoggerInterface $logger
      * @param FetchStrategyInterface $fetchStrategy
      * @param ManagerInterface $eventManager
+     * @param StoreManagerInterface $storeManager
      * @param MetadataPool $metadataPool
      * @param string $mainTable
      * @param string $eventPrefix
@@ -91,7 +92,7 @@ class Collection extends BlogCollection implements SearchResultInterface
      * @inheritDoc
      * @throws LocalizedException
      */
-    public function addFieldToFilter($field, $condition = null): \Magento\Framework\Data\Collection\AbstractDb|Collection
+    public function addFieldToFilter($field, $condition = null): static
     {
         if ($field === 'creation_time' || $field === 'update_time') {
             if (is_array($condition)) {

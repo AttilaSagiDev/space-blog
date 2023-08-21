@@ -43,9 +43,9 @@ class BlogRepository implements BlogRepositoryInterface
     protected BlogCollectionFactory $blogCollectionFactory;
 
     /**
-     * @var BlogSearchResultsFactory
+     * @var BlogSearchResults
      */
-    protected BlogSearchResultsFactory $searchResultsFactory;
+    protected BlogSearchResults $searchResultsFactory;
 
     /**
      * @var DataObjectHelper
@@ -82,7 +82,7 @@ class BlogRepository implements BlogRepositoryInterface
      * @param BlogFactory $blogFactory
      * @param BlogInterfaceFactory $dataBlogFactory
      * @param BlogCollectionFactory $blogCollectionFactory
-     * @param BlogSearchResultsFactory $searchResultsFactory
+     * @param BlogSearchResults $searchResultsFactory
      * @param DataObjectHelper $dataObjectHelper
      * @param DataObjectProcessor $dataObjectProcessor
      * @param StoreManagerInterface $storeManager
@@ -94,7 +94,7 @@ class BlogRepository implements BlogRepositoryInterface
         BlogFactory $blogFactory,
         BlogInterfaceFactory $dataBlogFactory,
         BlogCollectionFactory $blogCollectionFactory,
-        BlogSearchResultsFactory $searchResultsFactory,
+        BlogSearchResults $searchResultsFactory,
         DataObjectHelper $dataObjectHelper,
         DataObjectProcessor $dataObjectProcessor,
         StoreManagerInterface $storeManager,
@@ -162,7 +162,6 @@ class BlogRepository implements BlogRepositoryInterface
     public function getList(SearchCriteriaInterface $criteria): BlogSearchResultsInterface
     {
         $collection = $this->blogCollectionFactory->create();
-
         $this->collectionProcessor->process($criteria, $collection);
 
         /** @var BlogSearchResultsInterface $searchResults */
