@@ -13,9 +13,6 @@ use Space\Blog\Api\Data\BlogInterface;
 use Space\Blog\Model\ResourceModel\Blog;
 use Exception;
 
-/**
- * Class SaveHandler
- */
 class SaveHandler implements ExtensionInterface
 {
     /**

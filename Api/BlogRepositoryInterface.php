@@ -16,7 +16,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 interface BlogRepositoryInterface
 {
     /**
-     * Retrieve blogs matching the specified criteria.
+     * Retrieve blogs matching the specified criteria
      *
      * @param SearchCriteriaInterface $searchCriteria
      * @return BlogSearchResultsInterface

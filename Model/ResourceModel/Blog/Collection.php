@@ -263,7 +263,6 @@ class Collection extends AbstractCollection
 
     /**
      * Returns pairs identifier - title for unique identifiers
-     * and pairs identifier|entity_id - title for non-unique after first
      *
      * @return array
      */

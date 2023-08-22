@@ -159,6 +159,12 @@ class BlogRepository implements BlogRepositoryInterface
         return $blog;
     }
 
+    /**
+     * Retrieve blogs matching the specified criteria
+     *
+     * @param SearchCriteriaInterface $criteria
+     * @return BlogSearchResultsInterface
+     */
     public function getList(SearchCriteriaInterface $criteria): BlogSearchResultsInterface
     {
         $collection = $this->blogCollectionFactory->create();
