@@ -89,7 +89,11 @@ class Collection extends BlogCollection implements SearchResultInterface
     }
 
     /**
-     * @inheritDoc
+     * Add field filter to collection
+     *
+     * @param array|string $field
+     * @param string|int|array|null $condition
+     * @return $this
      * @throws LocalizedException
      */
     public function addFieldToFilter($field, $condition = null): static

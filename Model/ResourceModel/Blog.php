@@ -71,7 +71,8 @@ class Blog extends AbstractDb
     }
 
     /**
-     * @inheritDoc
+     * Get connection
+     *
      * @throws Exception
      */
     public function getConnection(): AdapterInterface|bool
@@ -83,8 +84,8 @@ class Blog extends AbstractDb
      * Load an object
      *
      * @param AbstractModel $object
-     * @param $value
-     * @param $field
+     * @param mixed $value
+     * @param string $field
      * @return $this|Blog
      * @throws LocalizedException
      */
@@ -130,13 +131,13 @@ class Blog extends AbstractDb
      * Get Blog ID
      *
      * @param AbstractModel $object
-     * @param $value
-     * @param $field
+     * @param mixed $value
+     * @param string|null $field
      * @return bool|int|string
      * @throws LocalizedException
      * @throws Exception
      */
-    private function getBlogId(AbstractModel $object, $value, $field = null): bool|int|string
+    private function getBlogId(AbstractModel $object, mixed $value, string $field = null): bool|int|string
     {
         $entityMetadata = $this->metadataPool->getMetadata(BlogInterface::class);
         if (!$field) {
