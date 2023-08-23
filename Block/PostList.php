@@ -111,6 +111,8 @@ class PostList extends Template
     }
 
     /**
+     * Prepare layout
+     *
      * @return $this|PostList
      * @throws NoSuchEntityException
      * @throws LocalizedException

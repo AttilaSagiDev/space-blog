@@ -11,6 +11,7 @@ use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\View\Result\PageFactory;
+use Space\Blog\Api\Data\ConfigInterface;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultInterface;
@@ -25,13 +26,24 @@ class View extends Action implements HttpGetActionInterface
     private PageFactory $resultPageFactory;
 
     /**
+     * @var ConfigInterface
+     */
+    private ConfigInterface $config;
+
+    /**
+     * Constructor
+     *
      * @param Context $context
+     * @param PageFactory $resultPageFactory
+     * @param ConfigInterface $config
      */
     public function __construct(
         Context $context,
-        PageFactory $resultPageFactory
+        PageFactory $resultPageFactory,
+        ConfigInterface $config
     ) {
         $this->resultPageFactory = $resultPageFactory;
+        $this->config = $config;
         parent::__construct($context);
     }
 
@@ -43,9 +55,9 @@ class View extends Action implements HttpGetActionInterface
     public function execute(): ResultInterface|ResponseInterface|Redirect
     {
         $postId = $this->getRequest()->getParam('id');
-        if (!$postId) {
+        if (!$postId || !$this->config->isEnabled()) {
             $resultRedirect = $this->resultRedirectFactory->create();
-            $this->messageManager->addErrorMessage('Invalid post ID.');
+            $this->messageManager->addErrorMessage('Invalid post ID or module disabled.');
             return $resultRedirect->setPath('no-route');
         }
 
