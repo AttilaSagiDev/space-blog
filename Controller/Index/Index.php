@@ -8,9 +8,9 @@ declare(strict_types=1);
 namespace Space\Blog\Controller\Index;
 
 use Magento\Framework\App\Action\Action;
-use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Controller\ResultFactory;
 
 class Index extends Action
 {

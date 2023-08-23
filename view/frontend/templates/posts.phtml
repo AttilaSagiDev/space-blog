@@ -16,7 +16,8 @@
         <?php foreach ($posts as $post): ?>
             <article>
                 <h2>
-                    <a href="" title="$escaper->escapeHtml($post->getTitle())" >
+                    <a href="<?= $escaper->escapeUrl($block->getViewUrl($post->getId())) ?>"
+                       title="<?= $escaper->escapeHtml($post->getTitle()) ?>">
                         <?= $escaper->escapeHtml($post->getTitle()) ?>
                     </a>
                 </h2>
@@ -25,11 +26,15 @@
                 <p style="margin-top: 10px">
                     <?= $escaper->escapeHtml($block->truncateString($post->getContent(), 80, '...', false)); ?>
                 </p>
-                <a href="" title="$escaper->escapeHtml($post->getTitle())" >
+                <a href="<?= $escaper->escapeUrl($block->getViewUrl($post->getId())) ?>"
+                   title="<?= $escaper->escapeHtml($post->getTitle()) ?>">
                     <span><?= $escaper->escapeHtml(__('More')); ?></span>
                 </a>
             </article>
         <?php endforeach; ?>
+        <?php if ($block->getPagerHtml()): ?>
+            <div class="toolbar bottom" style="margin-top: 15px;"><?= $block->getPagerHtml() ?></div>
+        <?php endif ?>
     <?php else: ?>
         <p><?= $escaper->escapeHtml(__('There are no posts.')) ?></p>
     <?php endif; ?>

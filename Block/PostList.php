@@ -7,13 +7,15 @@ declare(strict_types=1);
 
 namespace Space\Blog\Block;
 
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Space\Blog\Model\ResourceModel\Blog\CollectionFactory;
 use Magento\Store\Model\StoreManagerInterface;
 use Space\Blog\Api\Data\BlogInterface;
 use Space\Blog\Model\ResourceModel\Blog\Collection;
+use Magento\Theme\Block\Html\Pager;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class PostList extends Template
 {
@@ -59,11 +61,15 @@ class PostList extends Template
      */
     public function getPosts(): Collection
     {
+        $page = $this->getRequest()->getParam('p') ?: 1;
+        $limit = $this->getRequest()->getParam('limit') ?: self::LIMIT;
+
         $storeId = $this->storeManager->getStore()->getId();
         $collection = $this->collectionFactory->create();
         $collection->addStoreFilter((int)$storeId)
             ->addFieldToFilter(BlogInterface::IS_ACTIVE, ['eq' => 1])
-            ->setPageSize(self::LIMIT)
+            ->setPageSize($limit)
+            ->setCurPage($page)
             ->setOrder(BlogInterface::BLOG_ID, 'DESC');
 
         return $collection;
@@ -88,5 +94,50 @@ class PostList extends Template
             $value,
             ['length' => $length, 'etc' => $etc, 'breakWords' => $breakWords]
         );
+    }
+
+    /**
+     * Get view url
+     *
+     * @param int $postId
+     * @return string
+     */
+    public function getViewUrl(int $postId): string
+    {
+        return $this->getUrl(
+            'blog/post/view',
+            ['id' => $postId]
+        );
+    }
+
+    /**
+     * @return $this|PostList
+     * @throws NoSuchEntityException
+     * @throws LocalizedException
+     */
+    protected function _prepareLayout(): PostList|static
+    {
+        parent::_prepareLayout();
+        if ($this->getPosts()) {
+            $pager = $this->getLayout()->createBlock(
+                Pager::class,
+                'space.blog.list.pager'
+            )->setCollection(
+                $this->getPosts()
+            );
+            $this->setChild('pager', $pager);
+            $this->getPosts()->load();
+        }
+        return $this;
+    }
+
+    /**
+     * Get Pager child block output
+     *
+     * @return string
+     */
+    public function getPagerHtml(): string
+    {
+        return $this->getChildHtml('pager');
     }
 }
