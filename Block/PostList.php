@@ -10,12 +10,15 @@ namespace Space\Blog\Block;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Space\Blog\Model\ResourceModel\Blog\CollectionFactory;
+use Magento\Framework\Api\SearchCriteriaBuilder;
+use Space\Blog\Api\BlogRepositoryInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Space\Blog\Api\Data\BlogInterface;
 use Space\Blog\Model\ResourceModel\Blog\Collection;
 use Magento\Theme\Block\Html\Pager;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Space\Blog\Api\Data\BlogSearchResultsInterface;
 
 class PostList extends Template
 {
@@ -30,6 +33,16 @@ class PostList extends Template
     private CollectionFactory $collectionFactory;
 
     /**
+     * @var SearchCriteriaBuilder
+     */
+    private SearchCriteriaBuilder $searchCriteriaBuilder;
+
+    /**
+     * @var BlogRepositoryInterface
+     */
+    private BlogRepositoryInterface $blogRepository;
+
+    /**
      * @var StoreManagerInterface
      */
     private StoreManagerInterface $storeManager;
@@ -39,16 +52,22 @@ class PostList extends Template
      *
      * @param Context $context
      * @param CollectionFactory $collectionFactory
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param BlogRepositoryInterface $blogRepository
      * @param StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
         CollectionFactory $collectionFactory,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        BlogRepositoryInterface $blogRepository,
         StoreManagerInterface $storeManager,
         array $data = []
     ) {
         $this->collectionFactory = $collectionFactory;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->blogRepository = $blogRepository;
         $this->storeManager = $storeManager;
         parent::__construct($context, $data);
     }
@@ -73,6 +92,25 @@ class PostList extends Template
             ->setOrder(BlogInterface::BLOG_ID, 'DESC');
 
         return $collection;
+    }
+
+    /**
+     * Get post results for testing
+     * @deplacated because not used
+     *
+     * @param int $page
+     * @param int $limit
+     * @return BlogSearchResultsInterface
+     * @throws LocalizedException
+     */
+    public function getPostResults(int $page, int $limit): BlogSearchResultsInterface
+    {
+        $this->searchCriteriaBuilder->addFilter(BlogInterface::IS_ACTIVE, 1);
+        $searchCriteria = $this->searchCriteriaBuilder->create();
+        $searchCriteria->setCurrentPage($page)
+            ->setPageSize($limit);
+
+        return $this->blogRepository->getList($searchCriteria);
     }
 
     /**
