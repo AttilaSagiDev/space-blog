@@ -96,7 +96,7 @@ class PostList extends Template
 
     /**
      * Get post results for testing
-     * @deplacated because not used
+     * @deprecated because not used
      *
      * @param int $page
      * @param int $limit
