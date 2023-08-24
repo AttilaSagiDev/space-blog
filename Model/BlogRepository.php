@@ -8,8 +8,8 @@ declare(strict_types=1);
 namespace Space\Blog\Model;
 
 use Space\Blog\Api\BlogRepositoryInterface;
+use Space\Blog\Api\Data;
 use Space\Blog\Api\Data\BlogInterface;
-use Space\Blog\Api\Data\BlogSearchResultsInterface;
 use Space\Blog\Model\ResourceModel\Blog as ResourceBlog;
 use Space\Blog\Model\ResourceModel\Blog\CollectionFactory as BlogCollectionFactory;
 use Magento\Framework\Api\DataObjectHelper;
@@ -43,9 +43,9 @@ class BlogRepository implements BlogRepositoryInterface
     protected BlogCollectionFactory $blogCollectionFactory;
 
     /**
-     * @var BlogSearchResults
+     * @var Data\BlogSearchResultsInterfaceFactory
      */
-    protected BlogSearchResults $searchResultsFactory;
+    protected Data\BlogSearchResultsInterfaceFactory $searchResultsFactory;
 
     /**
      * @var DataObjectHelper
@@ -82,7 +82,7 @@ class BlogRepository implements BlogRepositoryInterface
      * @param BlogFactory $blogFactory
      * @param BlogInterfaceFactory $dataBlogFactory
      * @param BlogCollectionFactory $blogCollectionFactory
-     * @param BlogSearchResults $searchResultsFactory
+     * @param Data\BlogSearchResultsInterfaceFactory $searchResultsFactory
      * @param DataObjectHelper $dataObjectHelper
      * @param DataObjectProcessor $dataObjectProcessor
      * @param StoreManagerInterface $storeManager
@@ -94,7 +94,7 @@ class BlogRepository implements BlogRepositoryInterface
         BlogFactory $blogFactory,
         BlogInterfaceFactory $dataBlogFactory,
         BlogCollectionFactory $blogCollectionFactory,
-        BlogSearchResults $searchResultsFactory,
+        Data\BlogSearchResultsInterfaceFactory $searchResultsFactory,
         DataObjectHelper $dataObjectHelper,
         DataObjectProcessor $dataObjectProcessor,
         StoreManagerInterface $storeManager,
@@ -163,14 +163,14 @@ class BlogRepository implements BlogRepositoryInterface
      * Retrieve blogs matching the specified criteria
      *
      * @param SearchCriteriaInterface $criteria
-     * @return BlogSearchResultsInterface
+     * @return Data\BlogSearchResultsInterface
      */
-    public function getList(SearchCriteriaInterface $criteria): BlogSearchResultsInterface
+    public function getList(SearchCriteriaInterface $criteria): Data\BlogSearchResultsInterface
     {
         $collection = $this->blogCollectionFactory->create();
         $this->collectionProcessor->process($criteria, $collection);
 
-        /** @var BlogSearchResultsInterface $searchResults */
+        /** @var Data\BlogSearchResultsInterface $searchResults */
         $searchResults = $this->searchResultsFactory->create();
         $searchResults->setSearchCriteria($criteria);
         $searchResults->setItems($collection->getItems());
